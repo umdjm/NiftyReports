@@ -1,3 +1,4 @@
+require 'json'
 class StaticPagesController < ApplicationController
 
 	before_filter :authorize
@@ -5,5 +6,4 @@ class StaticPagesController < ApplicationController
 	  def index
 	    @users = User.all
 	  end
-
 end

@@ -3,102 +3,44 @@
 
 	<script>
       // Adding 500 Data Points
-      var map, pointarray, heatmap;
+      var map;
+      var heatmaps = [];
 	
-      var layer1 = [
-		{location: new google.maps.LatLng(42.071523,-72.624257), weight:13.747727085},
-		{location: new google.maps.LatLng(42.37686,-72.46914), weight:6.6332495807},
-		{location: new google.maps.LatLng(42.40524,-72.528427), weight:5.1961524227},
-		{location: new google.maps.LatLng(42.383945,-72.511834), weight:1.7320508076},
-		{location: new google.maps.LatLng(42.433317,-72.114488), weight:5.6568542495},
-		{location: new google.maps.LatLng(42.281915,-72.409531), weight:11.445523142},
-		{location: new google.maps.LatLng(42.143189,-72.931858), weight:4.2426406871},
-		{location: new google.maps.LatLng(42.207963,-72.344959), weight:1},
-		{location: new google.maps.LatLng(42.11514,-72.20142), weight:5.9160797831},
-		{location: new google.maps.LatLng(42.283726,-72.9669), weight:3.8729833462},
-		{location: new google.maps.LatLng(42.387225,-72.834041), weight:2.8284271247},
-		{location: new google.maps.LatLng(42.162301,-72.604454), weight:8.8317608663},
-		{location: new google.maps.LatLng(42.174812,-72.572286), weight:1.7320508076},
-		{location: new google.maps.LatLng(42.1756,-72.56999), weight:12.68857754},
-		{location: new google.maps.LatLng(42.177959,-72.572836), weight:1.7320508076},
-		{location: new google.maps.LatLng(42.194752,-72.561933), weight:1.4142135624}
-      ];
-	  
-	  var layer2 = [
-		{location: new google.maps.LatLng(41.513113,-74.37616), weight:2.4494897428},
-		{location: new google.maps.LatLng(41.147711,-73.941171), weight:10},
-		{location: new google.maps.LatLng(41.329376,-74.347207), weight:4.8989794856},
-		{location: new google.maps.LatLng(41.338977,-73.987248), weight:1.7320508076},
-		{location: new google.maps.LatLng(41.203736,-74.000708), weight:7.0710678119},
-		{location: new google.maps.LatLng(41.396494,-74.319687), weight:9.2736184955},
-		{location: new google.maps.LatLng(41.21895,-74.294664), weight:4.8989794856},
-		{location: new google.maps.LatLng(41.307707,-74.150676), weight:3},
-		{location: new google.maps.LatLng(41.199797,-73.969661), weight:4.582575695},
-		{location: new google.maps.LatLng(41.368496,-73.970013), weight:3},
-		{location: new google.maps.LatLng(41.353753,-74.130068), weight:5.3851648071}
-      ];
-	  	  
-	  var layer3 = [
-		{location: new google.maps.LatLng(38.818969,-77.990868), weight:3},
-		{location: new google.maps.LatLng(38.806691,-78.140273), weight:1.7320508076},
-		{location: new google.maps.LatLng(39.062322,-78.362403), weight:1.4142135624},
-		{location: new google.maps.LatLng(38.88906,-78.075811), weight:5.7445626465},
-		{location: new google.maps.LatLng(38.916784,-78.004657), weight:1},
-		{location: new google.maps.LatLng(38.984928,-78.511001), weight:3.6055512755},
-		{location: new google.maps.LatLng(39.025765,-78.27823), weight:4.7958315233},
-		{location: new google.maps.LatLng(39.066551,-78.03858), weight:2.2360679775},
-		{location: new google.maps.LatLng(38.765027,-78.377011), weight:3},
-		{location: new google.maps.LatLng(38.842058,-78.419588), weight:3.6055512755},
-		{location: new google.maps.LatLng(39.081239,-78.461184), weight:2.6457513111},
-		{location: new google.maps.LatLng(39.086856,-78.206821), weight:8.4261497732},
-		{location: new google.maps.LatLng(39.207623,-78.094979), weight:3.7416573868}
-      ];
-	  	  
-	  var layer4 = [
-		{location: new google.maps.LatLng(33.753316,-85.291849), weight:6.9282032303},
-		{location: new google.maps.LatLng(34.462624,-84.317684), weight:2.2360679775},
-		{location: new google.maps.LatLng(34.118231,-84.974477), weight:4.1231056256},
-		{location: new google.maps.LatLng(33.808273,-85.018501), weight:10.344080433},
-		{location: new google.maps.LatLng(33.708023,-84.932487), weight:14.282856857},
-		{location: new google.maps.LatLng(33.642788,-85.234357), weight:3.8729833462},
-		{location: new google.maps.LatLng(34.33514,-84.590564), weight:5.6568542495},
-		{location: new google.maps.LatLng(34.268651,-84.714438), weight:7.4161984871},
-		{location: new google.maps.LatLng(33.516993,-84.919009), weight:6.4807406984},
-		{location: new google.maps.LatLng(33.670933,-84.838664), weight:7.874007874},
-		{location: new google.maps.LatLng(34.115005,-84.455112), weight:17.204650534},
-		{location: new google.maps.LatLng(34.126928,-84.563188), weight:13.304134696}
-      ];
-	  
-	  var layer5 = [
-		{location: new google.maps.LatLng(27.70938,-82.44714), weight:9.7467943448},
-		{location: new google.maps.LatLng(27.720556,-82.433333), weight:1},
-		{location: new google.maps.LatLng(27.771363,-82.391466), weight:10.488088482},
-		{location: new google.maps.LatLng(27.718176,-82.364372), weight:7.5498344353},
-		{location: new google.maps.LatLng(28.331832,-82.274046), weight:1.4142135624},
-		{location: new google.maps.LatLng(27.714551,-82.419142), weight:3.7416573868},
-		{location: new google.maps.LatLng(28.324246,-82.319355), weight:7.2111025509},
-		{location: new google.maps.LatLng(27.880697,-82.369066), weight:11.401754251},
-		{location: new google.maps.LatLng(27.813553,-82.319353), weight:8.4852813742},
-		{location: new google.maps.LatLng(27.99987,-82.277661), weight:2.6457513111},
-		{location: new google.maps.LatLng(27.990282,-82.285514), weight:12.845232579}
-      ];
-	  
-	  var layer6 = [
-		{location: new google.maps.LatLng(41.65248,-86.158744), weight:12.961481397},
-		{location: new google.maps.LatLng(41.680563,-86.160151), weight:9.6953597148},
-		{location: new google.maps.LatLng(41.662647,-86.157621), weight:2},
-		{location: new google.maps.LatLng(41.447798,-85.999846), weight:13.856406461},
-		{location: new google.maps.LatLng(41.708477,-86.48143), weight:6.2449979984},
-		{location: new google.maps.LatLng(41.501908,-85.827126), weight:4.8989794856},
-		{location: new google.maps.LatLng(41.55255,-86.407096), weight:5.2915026221},
-		{location: new google.maps.LatLng(41.325309,-85.68982), weight:3.6055512755},
-		{location: new google.maps.LatLng(41.693901,-86.239284), weight:3.1622776602},
-		{location: new google.maps.LatLng(41.670601,-86.077419), weight:8.602325267},
-		{location: new google.maps.LatLng(41.200623,-85.708234), weight:4.7958315233},
-		{location: new google.maps.LatLng(41.348915,-86.328202), weight:13.341664064},
-		{location: new google.maps.LatLng(41.675713,-85.576964), weight:4.6904157598},
-		{location: new google.maps.LatLng(41.423554,-85.74079), weight:7.6811457479}
-      ];
+
+		function loadData() {
+		    var layers = [[],[],[],[],[],[]];
+
+		    $.ajax({
+		      url: 'creditreject.json',
+		      async: false,
+		      dataType: 'json',
+		      success: function (data) {
+		        for (var i=0; i<data.length; i++) {
+		          var datapoint = data[i];
+		          var layer;
+
+		          if(datapoint.fifo < 600)
+		          	layer = 0;
+		          else if(datapoint.fifo < 650)
+		          	layer = 1;
+		          else if(datapoint.fifo < 700)
+		          	layer = 2;
+		          else if(datapoint.fifo < 750)
+		          	layer = 3;
+		          else if(datapoint.fifo < 800)
+		          	layer = 4;
+		          else layer = 5;
+
+		          layers[layer].push({
+		            location: new google.maps.LatLng(datapoint.latitude, datapoint.longitude),
+		            weight: datapoint.weight,
+		            layerID: layer
+		          });
+		        }
+		      }
+		    });
+		    return layers;
+		  }
 
       function initialize() {
         var mapOptions = {
@@ -110,70 +52,22 @@
         map = new google.maps.Map(document.getElementById('map-canvas'),
             mapOptions);
 
-        pointArray1 = new google.maps.MVCArray(layer1);
-		pointArray2 = new google.maps.MVCArray(layer2);
-		pointArray3 = new google.maps.MVCArray(layer3);
-		pointArray4 = new google.maps.MVCArray(layer4);
-		pointArray5 = new google.maps.MVCArray(layer5);
-		pointArray6 = new google.maps.MVCArray(layer6);
+        var layers = loadData();
 
-        heatmap1 = new google.maps.visualization.HeatmapLayer({
-          data: pointArray1
-        });
-		heatmap2 = new google.maps.visualization.HeatmapLayer({
-          data: pointArray2
-        });
-		heatmap3 = new google.maps.visualization.HeatmapLayer({
-          data: pointArray3
-        });
-		heatmap4 = new google.maps.visualization.HeatmapLayer({
-          data: pointArray4
-        });
-		heatmap5 = new google.maps.visualization.HeatmapLayer({
-          data: pointArray5
-        });
-		heatmap6 = new google.maps.visualization.HeatmapLayer({
-          data: pointArray6
-        });
-
-        heatmap1.setMap(map);
-		heatmap2.setMap(map);
-		heatmap3.setMap(map);
-		heatmap4.setMap(map);
-		heatmap5.setMap(map);
-		heatmap6.setMap(map);
-      }
-	  
-	//FUNCTION TO CHANGE LAYERS
-	function changeMap(layerNum) {
-
-	if (layerNum == 1) {
-	updateMap(heatmap1);
-	}
-	if (layerNum == 2) {
-	updateMap(heatmap2);
-	}
-	if (layerNum == 3) {
-	updateMap(heatmap3);
-	}
-	if (layerNum == 4) {
-	updateMap(heatmap4);
-	}
-	if (layerNum == 5) {
-	updateMap(heatmap5);
-	}
-	if (layerNum == 6) {
-	updateMap(heatmap6);
-	}
+        for (var i=0; i<layers.length; i++) {
+          heatmaps[i] = new google.maps.visualization.HeatmapLayer({
+          	data: layers[i]
+        	});
+          heatmaps[i].setMap(map);
+      	}
 	}
 
 	//FUNCTION TO UPDATE LAYERS
-	function updateMap(layer) {
-	   var layerMap = layer.getMap();
-	   if (layerMap) {
-		  layer.setMap(null);
-	   } else {
+	function updateMap(layer, checked) {
+	   if (checked) {
 		  layer.setMap(map);
+	   } else {
+		  layer.setMap(null);
 	   }
 	} 
 	    /* Table initialisation */
@@ -182,20 +76,20 @@
     } );
     </script>
 
-        <div class="row">
+    <div class="row">
         <div class="span12" style="float: none; margin: 0 auto;">
 		  <h3>Credit Rejections by FICO Band</h3>
-			<input type='checkbox' name='system_type17' value='1' onclick="changeMap(this.value);" checked="checked" />
+			<input type='checkbox' value='0' onclick="updateMap(heatmaps[this.value], this.checked);" checked="checked" />
 			<span style="width:100px;display:inline-block;"><600</span>
-			<input type="checkbox" name="system_type3" value="2" onclick="changeMap(this.value);" checked="checked" />
+			<input type="checkbox" value="1" onclick="updateMap(heatmaps[this.value], this.checked);" checked="checked" />
 			<span style="width:100px;display:inline-block;">600-649</span>
-			<input type="checkbox" name="system_type3" value="3" onclick="changeMap(this.value);" checked="checked" />
+			<input type="checkbox" value="2" onclick="updateMap(heatmaps[this.value], this.checked);" checked="checked" />
 			<span style="width:100px;display:inline-block;">650-699</span>
-			<input type="checkbox" name="system_type3" value="4" onclick="changeMap(this.value);" checked="checked" />
+			<input type="checkbox" value="3" onclick="updateMap(heatmaps[this.value], this.checked);" checked="checked" />
 			<span style="width:100px;display:inline-block;">700-749</span>
-			<input type="checkbox" name="system_type3" value="5" onclick="changeMap(this.value);" checked="checked" />
+			<input type="checkbox" value="4" onclick="updateMap(heatmaps[this.value], this.checked);" checked="checked" />
 			<span style="width:100px;display:inline-block;">750-799</span>
-			<input type="checkbox" name="system_type3" value="6" onclick="changeMap(this.value);" checked="checked" />
+			<input type="checkbox" value="5" onclick="updateMap(heatmaps[this.value], this.checked);" checked="checked" />
 			<span style="width:100px;display:inline-block;">800+</span>
 			<br><br/>
 			<div id="map-canvas" style="height: 575px; width: 1000px;"></div>
